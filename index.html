@@ -90,6 +90,7 @@ button:disabled{opacity:.35;cursor:not-allowed}
 <div class="card" id="res" hidden></div>
 <div class="foot">ریاضی - قدرمطلق (صفحه‌های ۲۸ تا ۳۱)<br>طراحی و توسعه توسط پیمان کرم پور</div>
 
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
 /* ===== ابزارهای نمایش ===== */
 const m=c=>`<span class="m">${c}</span>`;
@@ -277,6 +278,11 @@ $('prev').onclick=()=>{if(st.cur>0)go(st.cur-1);};
 $('next').onclick=()=>{if(st.cur<Q.length-1)go(st.cur+1);else{st.fin=true;save();result();}};
 
 /* ===== نتیجه و بازخورد ===== */
+function sendToTeacher(){
+ const n=Q.length,ok=st.ans.filter((v,i)=>v===Q[i].a).length;
+ const data={q:'abs1',fn:st.fn,ln:st.ln,s:ok,t:n,w:st.ans.map((v,i)=>v===Q[i].a?0:i+1).filter(Boolean)};
+ try{Telegram.WebApp.sendData(JSON.stringify(data));}catch(e){alert('ارسال ممکن نشد. آزمون را از دکمهٔ داخل ربات باز کن.');}
+}
 function result(){
  const n=Q.length,ok=st.ans.filter((v,i)=>v===Q[i].a).length,un=st.ans.filter(v=>v==null).length,p=Math.round(ok/n*100);
  const bad={};Q.forEach((x,i)=>{if(st.ans[i]!==x.a)bad[x.s]=1;});
@@ -285,6 +291,7 @@ function result(){
  $('res').innerHTML='<div class="hero">'+msg[0]+'</div><h1>'+'آزمون تمام شد، '+esc(st.fn)+' عزیز!</h1><div class="score">'+ok+' از '+n+'</div><div class="sub">'+p+' درصد درست'+(un?' ، '+un+' سؤال را بی‌پاسخ گذاشتی':'')+'<br>'+msg[1]+'</div>'
  +(wk.length?'<div class="weak"><b>📌 بخش‌هایی که پیشنهاد می‌کنم مرور کنی:</b><br>'+wk.map(x=>'• '+x).join('<br>')+'</div>':'<div class="weak">🎯 در همهٔ بخش‌ها درست جواب دادی!</div>')
  +'<div class="nav"><button onclick="review()" class="o">مرور سؤال‌ها</button><button onclick="again()" class="g">شروع دوباره</button></div>';
+ if(window.Telegram&&Telegram.WebApp&&Telegram.WebApp.platform&&Telegram.WebApp.platform!=='unknown'){$('res').insertAdjacentHTML('beforeend','<div class="nav"><button class="big" onclick="sendToTeacher()">📨 ارسال نتیجه برای معلم</button></div>');}
  show('res');fa($('res'));}
 const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function review(){st.fin=false;st.cur=0;save();openQuiz();}
