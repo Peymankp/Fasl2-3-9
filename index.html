@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>آزمون قدرمطلق و ریشهٔ دوم</title>
+<style>
+*{box-sizing:border-box;font-family:Tahoma,sans-serif}
+body{background:linear-gradient(160deg,#eef2ff,#f0f4f8 60%,#e6fffa);margin:0;padding:16px;color:#2d3436;min-height:100vh}
+.card{max-width:820px;margin:0 auto;background:#fff;padding:26px;border-radius:22px;box-shadow:0 10px 28px rgba(80,60,200,.14);border-top:6px solid #6c5ce7}
+h1{color:#6c5ce7;text-align:center;font-size:24px;margin:0 0 6px}
+.sub{text-align:center;color:#636e72;margin-bottom:22px;line-height:2}
+.hero{text-align:center;font-size:54px}
+input{width:100%;padding:14px;margin:6px 0 14px;border:2px solid #dfe6e9;border-radius:12px;font-size:17px;text-align:right}
+input:focus{outline:none;border-color:#6c5ce7}
+button{padding:13px 28px;border:none;border-radius:50px;cursor:pointer;font-size:16px;font-weight:bold;color:#fff;background:linear-gradient(135deg,#6c5ce7,#8e44ad)}
+button.g{background:linear-gradient(135deg,#00b894,#00cec9)}button.o{background:linear-gradient(135deg,#fdcb6e,#e17055)}
+button:disabled{opacity:.35;cursor:not-allowed}
+.big{width:100%}
+.top{display:flex;justify-content:space-between;align-items:center;background:#f1efff;padding:10px 16px;border-radius:12px;font-size:14px;margin-bottom:12px;gap:8px;flex-wrap:wrap}
+.bar{height:9px;background:#ecf0f1;border-radius:5px;overflow:hidden;margin-bottom:12px}
+.fill{height:100%;background:linear-gradient(90deg,#6c5ce7,#a29bfe);transition:width .5s}
+.dots{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:18px}
+.dot{width:30px;height:30px;padding:0;border-radius:8px;font-size:12px;background:#dfe6e9;color:#2d3436}
+.dot.ok{background:#00b894;color:#fff}.dot.bad{background:#ff7675;color:#fff}.dot.cur{outline:3px solid #6c5ce7;outline-offset:1px}
+.tag{display:inline-block;background:#eef2ff;color:#6c5ce7;border-radius:8px;padding:2px 12px;font-size:13px;margin-bottom:10px}
+.question{font-size:19px;font-weight:bold;line-height:2.3;border-right:4px solid #fdcb6e;padding-right:14px;margin-bottom:18px}
+.options{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+@media(max-width:600px){.options{grid-template-columns:1fr}.card{padding:16px}}
+.option{padding:14px;border:2px solid #dfe6e9;border-radius:14px;cursor:pointer;text-align:center;font-size:18px;min-height:62px;display:flex;align-items:center;justify-content:center;transition:.2s;background:#fff}
+.ol{width:100%}.ol b{display:block;text-align:right;color:#6c5ce7;font-size:15px}.option svg{max-width:100%;height:auto}
+.option:hover{border-color:#a29bfe;background:#f8f7ff}
+.locked .option{cursor:default}.locked .option:hover{background:#fff;border-color:#dfe6e9}
+.option.correct,.locked .option.correct:hover{border-color:#00b894;background:#e6fffa;color:#00896f}
+.option.incorrect,.locked .option.incorrect:hover{border-color:#ff7675;background:#fff5f5;color:#d63031;animation:shake .4s}
+.option.correct{animation:pop .45s}
+@keyframes pop{50%{transform:scale(1.06)}}
+@keyframes shake{25%{transform:translateX(7px)}75%{transform:translateX(-7px)}}
+.fb{margin-top:16px;padding:14px;border-radius:12px;text-align:center;font-weight:bold;display:none}
+.fb.ok{background:#00b894;color:#fff}.fb.bad{background:#ff7675;color:#fff}
+.exp{margin-top:16px;padding:18px;background:#f8f9fc;border-radius:14px;line-height:2.2;font-size:15px;display:none;border:1px solid #dcdde1}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:24px}
+.m{display:inline-block;direction:ltr;unicode-bidi:isolate;font-family:'Times New Roman',Tahoma,serif;vertical-align:middle;white-space:nowrap}
+.fraction{display:inline-block;vertical-align:middle;text-align:center;font-size:.9em;margin:0 4px}
+.numerator{border-bottom:2px solid currentColor;display:block;padding:0 3px}.denominator{display:block;padding:0 3px}
+.tw{overflow-x:auto;margin:10px 0}
+.tb{border-collapse:collapse;margin:0 auto;background:#fff;font-size:14px;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.tb th{background:#6c5ce7;color:#fff;padding:7px 10px;border:1px solid #5a4bd1}
+.tb td{padding:6px 10px;border:1px solid #d0cdee;text-align:center;line-height:1.8}
+.tb tr:nth-child(odd) td{background:#f8f7ff}.tb tr.hl td{background:#c8f7e1!important;color:#00695c;font-weight:bold}
+.st{background:#fff;border-radius:12px;padding:10px 14px;margin:12px 0;border-right:5px solid #6c5ce7;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.sn{display:inline-block;background:#6c5ce7;color:#fff;border-radius:50%;width:26px;height:26px;text-align:center;line-height:26px;margin-left:8px;font-size:13px}
+.sb{margin-top:6px}.r{margin-top:6px}
+.tip,.warn,.ans,.chk{border-radius:10px;padding:9px 13px;margin:10px 0}
+.tip{background:#fff8e1;border-right:5px solid #fdcb6e}.warn{background:#ffecec;border-right:5px solid #ff7675}
+.ans{background:#e0fbf1;border-right:5px solid #00b894;font-size:16px}.chk{background:#e8f4fd;border-right:5px solid #0984e3}
+.fig{text-align:center;margin:10px 0;overflow-x:auto}.fig svg{max-width:100%;height:auto}
+.score{font-size:56px;color:#6c5ce7;text-align:center;font-weight:bold}
+.weak{background:#fff8e1;border-radius:12px;padding:12px 18px;margin:14px 0;line-height:2.1}
+.foot{text-align:center;color:#b2bec3;font-size:12px;margin-top:22px}
+.rt{display:inline-block;direction:ltr;unicode-bidi:isolate;white-space:nowrap}.rb{display:inline-block;border-top:1.6px solid currentColor;padding:0 3px 0 2px;margin-left:-1px;line-height:1.15}
+</style>
+</head>
+<body>
+<!-- صفحهٔ ورود -->
+<div class="card" id="start">
+  <div class="hero">🧮</div>
+  <h1>آزمون قدرمطلق و ریشهٔ دوم</h1>
+  <div class="sub">با حل قدم‌به‌قدم، یاد می‌گیری نه فقط جواب بدهی!<br>اول نامت را بنویس تا شروع کنیم.</div>
+  <input id="fn" placeholder="نام" autocomplete="off">
+  <input id="ln" placeholder="نام خانوادگی" autocomplete="off">
+  <button class="big g" id="go">شروع آزمون</button>
+</div>
+
+<!-- آزمون -->
+<div class="card" id="quiz" hidden>
+  <div class="top"><span>👋 <b id="who"></b></span><span>✅ درست: <b id="okc" style="color:#00b894">0</b></span><span>📊 پاسخ‌داده: <b id="anc">0</b> از <b id="all">0</b></span></div>
+  <div class="bar"><div class="fill" id="fill"></div></div>
+  <div class="dots" id="dots"></div>
+  <div class="tag" id="sec"></div>
+  <div class="question" id="q"></div>
+  <div class="fig" id="dg"></div>
+  <div class="options" id="opts"></div>
+  <div class="fb" id="fb"></div>
+  <div class="exp" id="exp"></div>
+  <div class="nav"><button id="prev" class="o">➡ قبلی</button><button id="next">بعدی ⬅</button></div>
+</div>
+
+<!-- نتیجه -->
+<div class="card" id="res" hidden></div>
+<div class="foot">ریاضی - قدرمطلق (صفحه‌های ۲۸ تا ۳۱)<br>طراحی و توسعه توسط پیمان کرم پور</div>
+
+<script>
+/* ===== ابزارهای نمایش ===== */
+const m=c=>`<span class="m">${c}</span>`;
+const frac=(a,b)=>`<span class="fraction"><span class="numerator">${a}</span><span class="denominator">${b}</span></span>`;
+const F=(a,b)=>m(frac(a,b));
+const R=t=>'<div class="r">'+t+'</div>';
+const T=(h,rows,hl=[])=>'<div class="tw"><table class="tb"><tr>'+h.map(x=>'<th>'+x+'</th>').join('')+'</tr>'+rows.map((r,i)=>'<tr class="'+(hl.includes(i)?'hl':'')+'">'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')+'</table></div>';
+const S=(n,t,b)=>'<div class="st"><span class="sn">'+n+'</span><b>'+t+'</b><div class="sb">'+b+'</div></div>';
+const TIP=b=>'<div class="tip">💡 <b>نکته:</b> '+b+'</div>';
+const WARN=b=>'<div class="warn">⚠️ <b>اشتباه رایج:</b> '+b+'</div>';
+const ANS=b=>'<div class="ans">✅ <b>جواب:</b> '+b+'</div>';
+const CHK=b=>'<div class="chk">🔍 <b>بررسی جواب:</b> '+b+'</div>';
+const FIG=s=>'<div class="fig">'+s+'</div>';
+const SV=(w,h,b)=>'<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" font-family="Tahoma" direction="ltr">'+b+'</svg>';
+const tx=(x,y,t,o='')=>'<text x="'+x+'" y="'+y+'" text-anchor="middle" '+o+'>'+t+'</text>';
+const circ=(x,y,open,c='#e17055')=>'<circle cx="'+x+'" cy="'+y+'" r="6.5" fill="'+(open?'#fff':c)+'" stroke="'+c+'" stroke-width="2.5"/>';
+// محور عددی: از lo تا hi، پارهٔ رنگی از a تا b (می‌تواند ±Infinity باشد)، oa/ob = دایرهٔ توخالی
+function NL(lo,hi,a,b,oa,ob){const W=440,x0=34,u=(W-68)/(hi-lo),X=v=>x0+(v-lo)*u;
+ let s='<line x1="8" y1="50" x2="428" y2="50" stroke="#2d3436" stroke-width="2"/><path d="M432 50l-10-5v10z" fill="#2d3436"/>';
+ for(let i=lo;i<=hi;i++)s+='<line x1="'+X(i)+'" y1="44" x2="'+X(i)+'" y2="56" stroke="#2d3436"/>'+tx(X(i),74,i,'font-size="13"');
+ const l=a===-Infinity?10:X(a),r=b===Infinity?426:X(b);
+ s+='<line x1="'+l+'" y1="50" x2="'+r+'" y2="50" stroke="#e17055" stroke-width="6" stroke-linecap="round" opacity=".85"/>';
+ if(a===-Infinity)s+='<path d="M4 50l10-6v12z" fill="#e17055"/>';
+ if(b===Infinity)s+='<path d="M432 50l-10-6v12z" fill="#e17055"/>';
+ if(a!==-Infinity)s+=circ(X(a),50,oa); if(b!==Infinity)s+=circ(X(b),50,ob);
+ return SV(W,90,s);}
+// سه کسر روی محور بزرگ‌نمایی‌شده
+function ZOOM(){const X=v=>30+(v-0.905)/0.025*380;
+ const pts=[[10/11,'10/11'],[11/12,'11/12'],[12/13,'12/13']];
+ let s='<line x1="10" y1="50" x2="430" y2="50" stroke="#2d3436" stroke-width="2"/>';
+ pts.forEach((p,i)=>{s+=circ(X(p[0]),50,false,i==1?'#00b894':'#6c5ce7')+tx(X(p[0]),30,p[1],'font-size="14" fill="'+(i==1?'#00b894':'#6c5ce7')+'"')+tx(X(p[0]),80,p[0].toFixed(3).replace('-','−'),'font-size="12" fill="#636e72"');});
+ return SV(440,95,s);}
+
+
+/* ===== رادیکال با خط افقی + قاب LTR برای همهٔ عبارت‌های ریاضی ===== */
+const rt=x=>'<span class="rt">√<span class="rb">'+x+'</span></span>';
+const RX=h=>h.replace(/√\(\(([^()]*)\)²\)/g,(_,x)=>rt('('+x+')²')).replace(/√\(([^()]*)\)/g,(_,x)=>rt(x)).replace(/√(\d+)/g,(_,x)=>rt(x));
+const RUN=/[0-9a-z√|(−+×=≈<>≤≥\u00b2\u00b3\u00b9\u2070-\u2079\u066b][0-9a-z√|()−+×=≈<>≤≥\u00b2\u00b3\u00b9\u2070-\u2079\u066b\s\/]*/g;
+function WR(h){let d=0,o='';for(const p of h.split(/(<\/?[a-zA-Z][^>]*>)/)){
+ if(/^<\/?[a-zA-Z]/.test(p)){if(d==0&&p==='<span class="m">')d=1;else if(d>0){if(/^<span/.test(p))d++;else if(p==='</span>')d--;}o+=p;}
+ else o+=d?p:p.replace(RUN,r=>{const t=r.trimEnd();return m(t)+r.slice(t.length);});}
+ return o;}
+const P=h=>RX(WR(h));
+/* ===== بانک سؤال‌ها: قدرمطلق (ص ۲۸ تا ۳۱) ===== */
+const Mx=(s,q,c,w,i,e)=>{const o=w.slice();o.splice(i,0,c);return{s,q,o,a:i,e};};
+const mm=a=>a.map(x=>m(x));
+const TB=h=>T(['جمله','نماد'],[['مثبت',m('a > 0')],['منفی',m('a < 0')],['نامنفی (مثبت یا صفر)',m('a ≥ 0')],['نامثبت (منفی یا صفر)',m('a ≤ 0')]],[h]);
+const WS='دقت کن: قدرمطلق هرگز منفی نیست. اگر جوابت منفی شد، حتماً جایی علامت را اشتباه برداشته‌ای.';
+const SA='کار در کلاس ص۲۸: علامت و منطق',SB='فعالیت ص۲۹: قدرمطلق عددهای رادیکالی',SC='ریشهٔ دوم و قدرمطلق',SD='کار در کلاس ص۳۰',SE='تمرین ص۳۱';
+// مرحله‌به‌مرحله: قدرمطلق یا ریشهٔ توان دو
+const G=(sec,k,ex,ap,val,pos,ans,wr,i,tip)=>{const o=mm(wr);o.splice(i,0,m(ans));const n=k=='s'?2:1;
+ const lead=k=='s'?S(1,'ریشه و توان را ساده کن','طبق <b>√(a²) = |a|</b> داریم:'+R(m('√(('+ex+')²) = |'+ex+'|'))):'';
+ return{s:sec,q:k=='a'?'حاصل '+m('|'+ex+'|')+' را بدون نماد قدرمطلق بنویس.':'حاصل '+m('√(('+ex+')²)')+' را به‌دست آور.',o,a:i,
+ e:lead+S(n,'مقدار تقریبی را بنویس',ap)+S(n+1,'علامت داخل قدرمطلق را مشخص کن',R(m(ex+' ≈ '+val))+'نتیجه: عدد <b>'+(pos?'مثبت':'منفی')+'</b> است.')
+ +S(n+2,'قاعده را به کار ببر',pos?'عدد مثبت، قدرمطلقش خودش است؛ پس داخل را همان‌طور می‌نویسیم:'+R(m('|'+ex+'| = '+ans)):'عدد منفی، قدرمطلقش قرینه‌اش است؛ علامت <b>همهٔ جمله‌ها</b> را عوض کن:'+R(m('|'+ex+'| = −('+ex+') = '+ans)))
+ +ANS(m(ans))+(tip?TIP(tip):WARN(WS))};};
+// مقایسه
+const CM=(l,r,vl,vr,hl,hr,tip)=>{const nv=x=>String(x).replace('-','−'),a=vl<vr?0:vl==vr?1:2;return {s:SD,q:'در جای «؟» کدام نماد درست است؟ '+m('|'+l+'|')+' ؟ '+m(r),o:[m('<'),m('='),m('>'),'نمی‌توان مقایسه کرد'],a:vl<vr?0:vl==vr?1:2,
+ e:S(1,'سمت چپ را حساب کن',m('|'+l+'| = '+hl+' = '+vl))+S(2,'سمت راست را حساب کن',m(r+' = '+hr+' = '+nv(vr)))+S(3,'مقایسه',m(nv(vl)+(vl<vr?' < ':vl==vr?' = ':' > ')+nv(vr)))
+ +ANS(m(vl<vr?'<':vl==vr?'=':'>'))+(tip?WARN(tip):'')};};
+const SG=(h,word,sym,wr,i,warn)=>Mx(SA,'جملهٔ «'+word+'» به کدام نماد ریاضی درست است؟',m(sym),mm(wr),i,
+ S(1,'معنی را بفهم','جدول زیر را یک‌بار بخوان و حفظ کن:'+TB(h))+S(2,'نماد را پیدا کن','ردیف رنگی جدول، همان جملهٔ سؤال است: '+m(sym))+ANS(m(sym))+WARN(warn));
+
+const Q=[
+/* ---------- کار در کلاس ص۲۸ ---------- */
+SG(2,'عدد a نامنفی است','a ≥ 0',['a > 0','a < 0','a ≤ 0'],1,'«نامنفی» را با «مثبت» یکی نگیر؛ نامنفی صفر را هم شامل می‌شود، پس علامت «مساوی» دارد.'),
+SG(3,'عدد a نامثبت است','a ≤ 0',['a ≥ 0','a < 0','a > 0'],0,'نامثبت یعنی مثبت نیست: یا منفی است یا صفر. پس باید «کوچک‌تر یا مساوی» باشد.'),
+Mx(SA,'جملهٔ «عدد a مثبت و عدد b منفی است» کدام است؟',m('a > 0 , b < 0'),mm(['a < 0 , b < 0','a > 0 , b > 0','a < 0 , b > 0']),2,
+ S(1,'هر عدد را جدا بنویس','a مثبت است: '+m('a > 0')+R('b منفی است: '+m('b < 0')))+S(2,'کنار هم بگذار',m('a > 0 , b < 0'))+ANS(m('a > 0 , b < 0'))+TIP('مثبت = بزرگ‌تر از صفر، منفی = کوچک‌تر از صفر.')),
+Mx(SA,'اگر '+m('a < 0')+' و '+m('b > 0')+' باشد، کدام عبارت <b>همیشه</b> درست است؟',m('ab < 0'),mm(['ab > 0','a + b > 0','a + b < 0']),0,
+ S(1,'یک مثال بزن','a = −2 و b = 3 :'+R(m('ab = (−2)×3 = −6')))+S(2,'قاعدهٔ علامت','منفی × مثبت = منفی؛ این برای هر دو عدد با این شرط درست است.')
+ +S(3,'گزینهٔ a+b را بسنج','گاهی مثبت می‌شود: '+m('−2 + 3 = 1')+' و گاهی منفی: '+m('−5 + 1 = −4')+'؛ پس «همیشه» نیست.')+ANS(m('ab < 0'))),
+Mx(SA,'اگر '+m('a < 0')+' و '+m('b < 0')+' باشد، کدام درست است؟',m('ab > 0 و a + b < 0'),mm(['ab < 0 و a + b < 0','ab > 0 و a + b > 0','ab < 0 و a + b > 0']),3,
+ S(1,'مثال','a = −2 و b = −3')+S(2,'ضرب',m('(−2)×(−3) = 6 > 0')+R('منفی × منفی = مثبت'))+S(3,'جمع',m('(−2)+(−3) = −5 < 0')+R('جمع دو منفی، منفی است'))+ANS(m('ab > 0 , a + b < 0'))),
+Mx(SA,'برای کدام شرط، '+m('|a| = a')+' درست است؟',m('a ≥ 0'),mm(['a < 0','a ≤ −1','a = −2']),1,
+ S(1,'قدرمطلق یعنی چه؟','فاصلهٔ عدد از صفر روی محور؛ هیچ‌وقت منفی نیست.')+S(2,'عدد نامنفی',m('|5| = 5 , |0| = 0')+R('پس برای عدد مثبت یا صفر، قدرمطلق خودش است.'))
+ +S(3,'عدد منفی',m('|−5| = 5 = −(−5)')+R('پس برای منفی‌ها '+m('|a| = −a')+' است.'))+ANS(m('a ≥ 0'))),
+Mx(SA,'اگر '+m('a < 0')+' و '+m('b < 0')+' باشد، '+m('|a + b|')+' برابر است با:',m('−(a + b)'),mm(['a + b','a − b','−a + b']),2,
+ S(1,'علامت a+b','دو منفی را جمع کردی، پس '+m('a + b < 0')+' است.')+S(2,'قاعده','قدرمطلق عدد منفی = قرینه‌اش: '+m('|a + b| = −(a + b)'))
+ +S(3,'تست با عدد','a = −2 , b = −3 :'+R(m('|−5| = 5')+' و '+m('−(a+b) = −(−5) = 5')+' ✔'))+ANS(m('−(a + b)'))+WARN('اگر بنویسی a+b، جواب منفی می‌شود و قدرمطلق نمی‌تواند منفی باشد.')),
+Mx(SA,'جملهٔ «قدر مطلقِ حاصل‌ضرب دو عدد با حاصل‌ضرب قدر مطلق آن‌هاست مساوی است» کدام است؟',m('|ab| = |a| × |b|'),mm(['|ab| = |a| + |b|','|ab| = ab','|ab| = |a| − |b|']),1,
+ S(1,'امتحان با عدد','a = −2 , b = 3 :'+R(m('|ab| = |−6| = 6'))+R(m('|a|×|b| = 2×3 = 6')+' ✔'))+S(2,'گزینه‌های دیگر',m('ab = −6')+' منفی است ولی '+m('|ab| = 6')+'؛ پس '+m('|ab| = ab')+' نادرست است. جمع هم '+m('2+3 = 5 ≠ 6')+'.')+ANS(m('|ab| = |a| × |b|'))),
+Mx(SA,'اگر '+m('a = 3')+' و '+m('b = −5')+' باشد، رابطهٔ درست بین '+m('|a + b|')+' و '+m('|a| + |b|')+' کدام است؟',m('|a+b| < |a|+|b|'),mm(['|a+b| = |a|+|b|','|a+b| > |a|+|b|','|a+b| = −2']),2,
+ S(1,'سمت چپ',m('a + b = 3 + (−5) = −2')+R(m('|−2| = 2')))+S(2,'سمت راست',m('|3| + |−5| = 3 + 5 = 8'))+S(3,'مقایسه',m('2 < 8'))
+ +ANS(m('|a+b| < |a|+|b|'))+TIP('همیشه '+m('|a+b| ≤ |a|+|b|')+' است؛ وقتی علامت‌ها مخالف باشند، کوچک‌تر می‌شود.')),
+/* ---------- فعالیت ص۲۹ ---------- */
+G(SB,'a','2 − √3','√3 ≈ 1٫7','2 − 1٫7 = 0٫3',true,'2 − √3',['√3 − 2','2 + √3','−2 − √3'],2),
+G(SB,'a','√7 − √8','√7 ≈ 2٫6 و √8 ≈ 2٫8','2٫6 − 2٫8 = −0٫2',false,'√8 − √7',['√7 − √8','√7 + √8','−√7 − √8'],0,'بدون ماشین‌حساب هم می‌شود: زیر رادیکالِ ۸ بزرگ‌تر از ۷ است، پس √8 بزرگ‌تر است و √7 − √8 منفی می‌شود.'),
+Mx(SB,'حاصل '+m('|2√5 − √5|')+' را بنویس.',m('√5'),mm(['−√5','3√5','2']),1,
+ S(1,'جملات هم‌شکل را ساده کن','مثل '+m('2x − x = x')+' :'+R(m('2√5 − √5 = √5')))+S(2,'علامت','√5 ≈ 2٫2 مثبت است.')+S(3,'قدرمطلق',m('|√5| = √5'))+ANS(m('√5'))+WARN('جواب 3√5 غلط است؛ منها را جمع حساب کرده‌ای.')),
+G(SB,'a','−4 − √3','هر دو جمله منفی‌اند، یعنی −4 و −√3 ≈ −1٫7','−4 − 1٫7 = −5٫7',false,'4 + √3',['−4 − √3','4 − √3','√3 − 4'],3,'وقتی همهٔ جمله‌ها منفی‌اند، بدون محاسبه می‌دانی مجموع منفی است.'),
+G(SB,'a','√5 − 3','√5 ≈ 2٫2','2٫2 − 3 = −0٫8',false,'3 − √5',['√5 − 3','3 + √5','−3 − √5'],1),
+Mx(SB,'حاصل '+m('|3 − √5| + |−2 − √5|')+' کدام است؟',m('5'),mm(['1 − 2√5','1','5 + 2√5']),0,
+ S(1,'جملهٔ اول','√5 ≈ 2٫2 ⇒ 3 − 2٫2 = 0٫8 مثبت'+R(m('|3 − √5| = 3 − √5')))+S(2,'جملهٔ دوم','−2 − 2٫2 = −4٫2 منفی'+R(m('|−2 − √5| = −(−2 − √5) = 2 + √5')))
+ +S(3,'جمع',m('(3 − √5) + (2 + √5) = 5 + 0 = 5')+R('√5 و −√5 همدیگر را حذف می‌کنند.'))+ANS(m('5'))+WARN('جملهٔ دوم را بدون تغییر علامت جمع نکن؛ جواب 1−2√5 از همین اشتباه می‌آید.')),
+Mx(SB,'اگر '+m('a = ')+F(1,2)+'، '+m('b = √3')+' و '+m('c = −3')+' باشد، '+m('|a + b + c|')+' کدام است؟',m(frac(5,2)+' − √3'),[m('√3 − '+frac(5,2)),m(frac(5,2)+' + √3'),m(frac(7,2)+' − √3')],1,
+ S(1,'جایگذاری',m('|'+frac(1,2)+' + √3 + (−3)|'))+S(2,'ساده کن',m(frac(1,2)+' − 3 = −'+frac(5,2))+R('پس داخل قدرمطلق: '+m('√3 − '+frac(5,2))))
+ +S(3,'علامت','√3 ≈ 1٫7 و 5/2 = 2٫5 ⇒ 1٫7 − 2٫5 = −0٫8 <b>منفی</b>')+S(4,'قرینه بگیر',m('−(√3 − '+frac(5,2)+') = '+frac(5,2)+' − √3'))+ANS(m(frac(5,2)+' − √3'))),
+/* ---------- √a² ---------- */
+Mx(SC,'حاصل '+m('√((−7)²)')+' چند است؟',m('7'),mm(['−7','49','0']),2,
+ S(1,'توان را حساب کن',m('(−7)² = 49'))+S(2,'ریشه بگیر',m('√49 = 7'))+ANS(m('7'))+WARN('ریشهٔ دوم همیشه جواب نامنفی می‌دهد؛ پس −7 نمی‌شود. حتی می‌توانی بگویی: √(a²) = |a| = |−7| = 7.')),
+Mx(SC,'در جدول فعالیت داریم '+'√((−3)²) = 3'+' و '+'√((−127)²) = 127'+' و '+'√(325²) = 325'+' ؛ چه نتیجه‌ای می‌گیریم؟',m('√(a²) = |a|'),mm(['√(a²) = a','√(a²) = −a','√(a²) = a²']),3,
+ S(1,'نگاه کن','در همهٔ ستون‌ها جواب برابر با <b>قدرمطلق</b> عدد داخل پرانتز است:'+T(['عدد a','√(a²)','|a|'],[['−3','3','3'],['−127','127','127'],['325','325','325']]))
+ +S(2,'چرا a کافی نیست؟','برای a منفی، √(a²) = a منفی می‌شد، ولی جواب‌ها همه نامنفی‌اند.')+ANS(m('√(a²) = |a|'))),
+G(SC,'s','1 − √3','√3 ≈ 1٫7','1 − 1٫7 = −0٫7',false,'√3 − 1',['1 − √3','1 + √3','−1 − √3'],0,'همین مثال کتاب است: جواب √3 − 1 که مثبت است. جواب نباید منفی باشد.'),
+/* ---------- کار در کلاس ص۳۰ ---------- */
+CM('(−7)²','|−7|²',49,49,'|49|','7²'),
+CM('−8 + 5','|−8| + |5|',3,13,'|−3|','8 + 5','|a + b| با |a| + |b| لزوماً برابر نیست؛ اول جمع بزن بعد قدرمطلق، با این‌که اول قدرمطلق بگیری و بعد جمع بزنی فرق دارد.'),
+CM('3 − 9','|3| − |9|',6,-6,'|−6|','3 − 9','قدرمطلق همیشه نامنفی است، اما |3|−|9| می‌تواند منفی شود.'),
+G(SD,'a','7³ − 7⁴','7³ = 343 و 7⁴ = 2401','343 − 2401 = −2058',false,'7⁴ − 7³',['7³ − 7⁴','7⁷','−7⁴ − 7³'],2,'7⁴ = 7×7³ از 7³ بزرگ‌تر است. پس تفریق منفی می‌شود و باید ترتیب را عوض کنی.'),
+Mx(SD,'حاصل '+m('|0٫25 − 0٫26|')+' چند است؟',m('0٫01'),mm(['−0٫01','0٫51','0٫1']),1,
+ S(1,'تفریق',m('0٫25 − 0٫26 = −0٫01')+R('منفی شد.'))+S(2,'قدرمطلق',m('|−0٫01| = 0٫01'))+ANS(m('0٫01'))+CHK('فاصلهٔ ۰٫۲۵ تا ۰٫۲۶ روی محور، یک صدم است ✔')),
+Mx(SD,'حاصل '+m('|−'+frac(4,3)+'|')+' کدام است؟',m(frac(4,3)),[m('−'+frac(4,3)),m(frac(3,4)),m(frac(1,3))],0,
+ S(1,'قاعده','قدرمطلق عدد منفی، قرینهٔ آن است: '+m('|−x| = x'))+S(2,'جایگذاری',m('|−'+frac(4,3)+'| = '+frac(4,3)))+ANS(m(frac(4,3)))+TIP('فاصلهٔ −4/3 تا صفر برابر 4/3 است؛ فاصله منفی نمی‌شود.')),
+Mx(SD,'حاصل '+m('√((−2595)²)')+' کدام است؟',m('2595'),mm(['−2595','5190','0']),1,
+ S(1,'قاعده',m('√(a²) = |a|'))+S(2,'جایگذاری',m('√((−2595)²) = |−2595| = 2595'))+ANS(m('2595'))+WARN('ریشه و توان همدیگر را خنثی نمی‌کنند مگر این‌که عدد داخل نامنفی باشد؛ برای عدد منفی، جواب قرینه می‌شود.')),
+G(SD,'s','−3 + √10','√10 ≈ 3٫2','−3 + 3٫2 = 0٫2',true,'√10 − 3',['3 − √10','−3 − √10','3 + √10'],3,'چون 10 از 9 بزرگ‌تر است، √10 از 3 بزرگ‌تر است؛ پس −3+√10 مثبت است.'),
+G(SD,'s','2 − √5','√5 ≈ 2٫2','2 − 2٫2 = −0٫2',false,'√5 − 2',['2 − √5','2 + √5','−2 − √5'],0),
+/* ---------- تمرین ص۳۱ ---------- */
+Mx(SE,'اگر '+m('a = 0٫25')+' ، '+m('b = −'+frac(1,4))+' ، '+m('c = 2')+F(1,2)+' باشد، حاصل '+m('|a + b| + 2|a − b − c|')+' چند است؟',m('4'),mm(['−4','0','5']),2,
+ S(1,'عددها را اعشاری کن','b = −0٫25 و c = 2٫5')+S(2,'جملهٔ اول',m('a + b = 0٫25 + (−0٫25) = 0')+R(m('|0| = 0')))
+ +S(3,'جملهٔ دوم',m('a − b − c = 0٫25 − (−0٫25) − 2٫5 = 0٫25 + 0٫25 − 2٫5 = −2')+R(m('2|−2| = 2×2 = 4')))+S(4,'جمع',m('0 + 4 = 4'))+ANS(m('4'))+WARN('منهای عدد منفی یعنی جمع: a − b وقتی b=−0٫25 است، می‌شود 0٫25 + 0٫25.')),
+G(SE,'a','7 − 5√3','√3 ≈ 1٫7 پس 5√3 ≈ 8٫5','7 − 8٫5 = −1٫5',false,'5√3 − 7',['7 − 5√3','7 + 5√3','−7 − 5√3'],1),
+Mx(SE,'حاصل '+m('|−3√5|')+' کدام است؟',m('3√5'),mm(['−3√5','3','−3']),0,
+ S(1,'علامت','−3√5 عددی منفی است (منفی × مثبت).')+S(2,'قرینه',m('|−3√5| = 3√5'))+ANS(m('3√5'))),
+Mx(SE,'در نابرابری '+m('|5 − 12| > 1 + □')+' کدام عدد را می‌توان در مربع گذاشت؟',m('5'),mm(['6','7','10']),2,
+ S(1,'سمت چپ',m('5 − 12 = −7')+R(m('|−7| = 7')))+S(2,'نابرابری',m('7 > 1 + □')+R('پس '+m('□ < 6')))+S(3,'گزینه‌ها','فقط 5 از 6 کوچک‌تر است. اگر 6 بگذاری '+m('7 > 7')+' می‌شود که غلط است (برابر است، نه بزرگ‌تر).')+ANS(m('5'))),
+Mx(SE,'مقدار '+m('|a| + a')+' به‌ازای '+m('a = −2')+' و '+m('a = 0')+' و '+m('a = 2')+' به‌ترتیب کدام است؟',m('0 ، 0 ، 4'),mm(['−4 ، 0 ، 4','0 ، 0 ، 0','4 ، 0 ، 4']),0,
+ S(1,'a = −2',m('|−2| + (−2) = 2 − 2 = 0'))+S(2,'a = 0',m('|0| + 0 = 0'))+S(3,'a = 2',m('|2| + 2 = 4'))+ANS(m('0 ، 0 ، 4'))),
+Mx(SE,'آیا عدد حقیقیِ a وجود دارد که '+m('|a| + a')+' منفی شود؟',  'خیر، همیشه صفر یا مثبت است',['بله، وقتی a منفی باشد','بله، وقتی a صفر باشد','بله، فقط برای a = −1'],1,
+ S(1,'اگر a ≥ 0',m('|a| + a = a + a = 2a ≥ 0'))+S(2,'اگر a < 0',m('|a| = −a')+' پس '+m('|a| + a = −a + a = 0'))+S(3,'نتیجه','در هر حالت، حاصل <b>صفر یا مثبت</b> است.')+ANS('خیر')),
+Mx(SE,'کدام مقدار a ثابت می‌کند که '+m('√(a²) = a')+' <b>همیشه</b> درست نیست؟',m('a = −3'),mm(['a = 5','a = 0','a = 2']),2,
+ S(1,'هر گزینه را امتحان کن',T(['a','√(a²)','برابر a؟'],[['5','5','✔'],['0','0','✔'],['2','2','✔'],['−3','√9 = 3','✘ (3 ≠ −3)']],[3]))+S(2,'نتیجه','فقط برای a منفی خراب می‌شود؛ درست‌ش '+m('√(a²) = |a|')+' است.')+ANS(m('a = −3'))+TIP('به چنین مثالی «مثال نقض» می‌گویند.')),
+G(SE,'s','√2 − 1','√2 ≈ 1٫4','1٫4 − 1 = 0٫4',true,'√2 − 1',['1 − √2','1 + √2','−√2 − 1'],0),
+G(SE,'s','1 − √10','√10 ≈ 3٫2','1 − 3٫2 = −2٫2',false,'√10 − 1',['1 − √10','1 + √10','−1 − √10'],3)
+];
+
+/* ===== صدا ===== */
+let AC;
+function tone(f,t0,d,type,g,f2){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const n=AC.currentTime+t0,o=AC.createOscillator(),v=AC.createGain();
+ o.type=type;o.frequency.setValueAtTime(f,n);if(f2)o.frequency.linearRampToValueAtTime(f2,n+d);
+ v.gain.setValueAtTime(g,n);v.gain.exponentialRampToValueAtTime(.001,n+d);o.connect(v);v.connect(AC.destination);o.start(n);o.stop(n+d);}catch(e){}}
+const sndOK=()=>{tone(523,0,.15,'sine',.25);tone(659,.12,.15,'sine',.25);tone(784,.24,.35,'sine',.25);};
+const sndBAD=()=>{tone(220,0,.35,'sawtooth',.14,110);tone(150,.18,.35,'square',.08,80);};
+
+/* ===== ذخیره‌سازی در مرورگر ===== */
+const KEY='quiz_abs_value_v1';
+let st=null;
+try{st=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}};
+const $=id=>document.getElementById(id);
+const FA='۰۱۲۳۴۵۶۷۸۹';
+function fa(root){const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while((n=w.nextNode()))n.nodeValue=n.nodeValue.replace(/[0-9]/g,d=>FA[d]).replace(/(\d|[۰-۹])\.(?=[۰-۹])/g,'$1٫').replace(/−[۰-۹]+(٫[۰-۹]+)?/g,'\u2066$&\u2069');}
+const show=id=>{['start','quiz','res'].forEach(x=>$(x).hidden=x!==id);window.scrollTo(0,0);};
+
+/* ===== ورود ===== */
+$('go').onclick=()=>{const a=$('fn').value.trim(),b=$('ln').value.trim();
+ if(!a||!b){alert('لطفاً نام و نام خانوادگی را وارد کن');return;}
+ st={fn:a,ln:b,cur:0,ans:[],fin:false};save();openQuiz();};
+
+/* ===== نمایش سؤال ===== */
+function openQuiz(){$('who').textContent=st.fn+' '+st.ln;$('all').textContent=Q.length;show('quiz');draw();}
+function draw(){
+ const d=Q[st.cur],a=st.ans[st.cur],done=a!=null&&a!==-1;
+ $('sec').textContent=d.s;$('q').innerHTML=(st.cur+1)+'. '+P(d.q);
+ $('dg').innerHTML=d.d||'';$('dg').style.display=d.d?'block':'none';
+ const box=$('opts');box.innerHTML='';box.className='options'+(done?' locked':'');
+ d.o.forEach((t,i)=>{const e=document.createElement('div');e.className='option';e.innerHTML=P(t);
+  if(done){if(i===d.a)e.classList.add('correct');else if(i===a)e.classList.add('incorrect');}
+  e.onclick=()=>pick(i);box.appendChild(e);});
+ const fb=$('fb'),ex=$('exp');
+ if(done){const ok=a===d.a;fb.className='fb '+(ok?'ok':'bad');fb.innerHTML=ok?'آفرین! پاسخ درست است 🎉':'این بار نشد ❌ ولی توضیح زیر را بخوان تا دفعهٔ بعد درست جواب بدهی';fb.style.display='block';ex.innerHTML='<b>📘 حل کامل:</b>'+P(d.e);ex.style.display='block';}
+ else{fb.style.display='none';ex.style.display='none';}
+ const ok=st.ans.filter((v,i)=>v===Q[i].a).length,an=st.ans.filter(v=>v!=null).length;
+ $('okc').textContent=ok;$('anc').textContent=an;$('fill').style.width=(an/Q.length*100)+'%';
+ $('dots').innerHTML='';Q.forEach((x,i)=>{const b=document.createElement('button');const v=st.ans[i];
+  b.className='dot'+(v==null?'':v===x.a?' ok':' bad')+(i===st.cur?' cur':'');b.textContent=i+1;b.onclick=()=>go(i);$('dots').appendChild(b);});
+ $('prev').disabled=st.cur===0;$('next').textContent=st.cur===Q.length-1?'پایان و دیدن نتیجه 🏁':'بعدی ⬅';
+ fa($('quiz'));
+}
+function pick(i){if(st.ans[st.cur]!=null)return;st.ans[st.cur]=i;save();(i===Q[st.cur].a?sndOK:sndBAD)();draw();
+ setTimeout(()=>$('fb').scrollIntoView({behavior:'smooth',block:'center'}),150);}
+function go(i){st.cur=i;save();draw();window.scrollTo(0,0);}
+$('prev').onclick=()=>{if(st.cur>0)go(st.cur-1);};
+$('next').onclick=()=>{if(st.cur<Q.length-1)go(st.cur+1);else{st.fin=true;save();result();}};
+
+/* ===== نتیجه و بازخورد ===== */
+function result(){
+ const n=Q.length,ok=st.ans.filter((v,i)=>v===Q[i].a).length,un=st.ans.filter(v=>v==null).length,p=Math.round(ok/n*100);
+ const bad={};Q.forEach((x,i)=>{if(st.ans[i]!==x.a)bad[x.s]=1;});
+ const msg=p>=90?['🏆','عالی بود! تو بر این مبحث مسلطی.']:p>=70?['🌟','خیلی خوب! با کمی مرور به قلهٔ قله می‌رسی.']:p>=50?['👍','خوب است؛ ولی هنوز جا برای پیشرفت داری. توضیح سؤال‌های اشتباه را دوباره بخوان.']:['💪','نگران نباش! یادگیری با تمرین می‌آید. توضیح‌ها را بخوان و دوباره امتحان کن.'];
+ const wk=Object.keys(bad);
+ $('res').innerHTML='<div class="hero">'+msg[0]+'</div><h1>'+'آزمون تمام شد، '+esc(st.fn)+' عزیز!</h1><div class="score">'+ok+' از '+n+'</div><div class="sub">'+p+' درصد درست'+(un?' ، '+un+' سؤال را بی‌پاسخ گذاشتی':'')+'<br>'+msg[1]+'</div>'
+ +(wk.length?'<div class="weak"><b>📌 بخش‌هایی که پیشنهاد می‌کنم مرور کنی:</b><br>'+wk.map(x=>'• '+x).join('<br>')+'</div>':'<div class="weak">🎯 در همهٔ بخش‌ها درست جواب دادی!</div>')
+ +'<div class="nav"><button onclick="review()" class="o">مرور سؤال‌ها</button><button onclick="again()" class="g">شروع دوباره</button></div>';
+ show('res');fa($('res'));}
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function review(){st.fin=false;st.cur=0;save();openQuiz();}
+function again(){if(confirm('همهٔ پاسخ‌های قبلی پاک شود و آزمون از اول شروع شود؟')){st.ans=[];st.cur=0;st.fin=false;save();openQuiz();}}
+
+/* ===== شروع ===== */
+if(st&&st.fn){st.ans=st.ans||[];if(st.fin)result();else openQuiz();}else show('start');
+</script>
+</body>
+</html>
