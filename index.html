@@ -66,9 +66,11 @@ button:disabled{opacity:.35;cursor:not-allowed}
 <div class="card" id="start">
   <div class="hero">🧮</div>
   <h1>آزمون قدرمطلق و ریشهٔ دوم</h1>
-  <div class="sub">با حل قدم‌به‌قدم، یاد می‌گیری نه فقط جواب بدهی!<br>اول نامت را بنویس تا شروع کنیم.</div>
+  <div class="sub">با حل قدم‌به‌قدم، یاد می‌گیری نه فقط جواب بدهی!<br>اول مشخصاتت را بنویس تا شروع کنیم.</div>
   <input id="fn" placeholder="نام" autocomplete="off">
   <input id="ln" placeholder="نام خانوادگی" autocomplete="off">
+  <input id="cl" placeholder="شعبه کلاس" autocomplete="off">
+  <input id="sc" placeholder="نام مدرسه" autocomplete="off">
   <button class="big g" id="go">شروع آزمون</button>
 </div>
 
@@ -247,9 +249,9 @@ function fa(root){const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);l
 const show=id=>{['start','quiz','res'].forEach(x=>$(x).hidden=x!==id);window.scrollTo(0,0);};
 
 /* ===== ورود ===== */
-$('go').onclick=()=>{const a=$('fn').value.trim(),b=$('ln').value.trim();
- if(!a||!b){alert('لطفاً نام و نام خانوادگی را وارد کن');return;}
- st={fn:a,ln:b,cur:0,ans:[],fin:false};save();openQuiz();};
+$('go').onclick=()=>{const a=$('fn').value.trim(),b=$('ln').value.trim(),c=$('cl').value.trim(),s=$('sc').value.trim();
+ if(!a||!b||!c||!s){alert('لطفاً نام، نام خانوادگی، شعبهٔ کلاس و نام مدرسه را وارد کن');return;}
+ st={fn:a,ln:b,cl:c,sc:s,cur:0,ans:[],fin:false};save();openQuiz();};
 
 /* ===== نمایش سؤال ===== */
 function openQuiz(){$('who').textContent=st.fn+' '+st.ln;$('all').textContent=Q.length;show('quiz');draw();}
@@ -280,7 +282,7 @@ $('next').onclick=()=>{if(st.cur<Q.length-1)go(st.cur+1);else{st.fin=true;save()
 /* ===== نتیجه و بازخورد ===== */
 function sendToTeacher(){
  const n=Q.length,ok=st.ans.filter((v,i)=>v===Q[i].a).length;
- const data={q:'abs1',fn:st.fn,ln:st.ln,s:ok,t:n,w:st.ans.map((v,i)=>v===Q[i].a?0:i+1).filter(Boolean)};
+ const data={e:new URLSearchParams(location.search).get('e'),q:'abs1',fn:st.fn,ln:st.ln,cl:st.cl||'',sc:st.sc||'',s:ok,t:n,w:st.ans.map((v,i)=>v===Q[i].a?0:i+1).filter(Boolean)};
  try{Telegram.WebApp.sendData(JSON.stringify(data));}catch(e){alert('ارسال ممکن نشد. آزمون را از دکمهٔ داخل ربات باز کن.');}
 }
 function result(){
