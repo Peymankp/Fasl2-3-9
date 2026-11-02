@@ -150,7 +150,7 @@ const G=(sec,k,ex,ap,val,pos,ans,wr,i,tip)=>{const o=mm(wr);o.splice(i,0,m(ans))
  +S(n+2,'قاعده را به کار ببر',pos?'عدد مثبت، قدرمطلقش خودش است؛ پس داخل را همان‌طور می‌نویسیم:'+R(m('|'+ex+'| = '+ans)):'عدد منفی، قدرمطلقش قرینه‌اش است؛ علامت <b>همهٔ جمله‌ها</b> را عوض کن:'+R(m('|'+ex+'| = −('+ex+') = '+ans)))
  +ANS(m(ans))+(tip?TIP(tip):WARN(WS))};};
 // مقایسه
-const CM=(l,r,vl,vr,hl,hr,tip)=>{const nv=x=>String(x).replace('-','−'),a=vl<vr?0:vl==vr?1:2;return {s:SD,q:'در جای «؟» کدام نماد درست است؟ '+m('|'+l+'|')+' ؟ '+m(r),o:[m('<'),m('='),m('>'),'نمی‌توان مقایسه کرد'],a:vl<vr?0:vl==vr?1:2,
+const CM=(l,r,vl,vr,hl,hr,tip)=>{const nv=x=>String(x).replace('-','−'),a=vl<vr?0:vl==vr?1:2;return {s:SD,q:'در جای «؟» کدام نماد درست است؟<br>'+m('|'+l+'| ? '+r),o:[m('<'),m('='),m('>'),'نمی‌توان مقایسه کرد'],a:vl<vr?0:vl==vr?1:2,
  e:S(1,'سمت چپ را حساب کن',m('|'+l+'| = '+hl+' = '+vl))+S(2,'سمت راست را حساب کن',m(r+' = '+hr+' = '+nv(vr)))+S(3,'مقایسه',m(nv(vl)+(vl<vr?' < ':vl==vr?' = ':' > ')+nv(vr)))
  +ANS(m(vl<vr?'<':vl==vr?'=':'>'))+(tip?WARN(tip):'')};};
 const SG=(h,word,sym,wr,i,warn)=>Mx(SA,'جملهٔ «'+word+'» به کدام نماد ریاضی درست است؟',m(sym),mm(wr),i,
